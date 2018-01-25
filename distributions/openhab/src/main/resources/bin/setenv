@@ -195,7 +195,7 @@ locateJava() {
 }
 
 checkJvmVersion() {
-   VERSION=`$JAVA -version 2>&1 | egrep '"([0-9].[0-9]\..*[0-9]).*"' | awk '{print substr($3,2,length($3)-2)}' | awk '{print substr($1, 3, 3)}' | sed -e 's;\.;;g'`
+   VERSION=`$JAVA -version 2>&1 | sed -n 's/"1\./"/;s/.*version "\([0-9]\)\.\([0-9]\).*$/\1\2/p'`
    if [ "$VERSION" -lt "80" ]; then
        die "Java 1.8 or higher is required. Aborting launch."
    fi
